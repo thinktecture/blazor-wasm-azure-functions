@@ -1,0 +1,50 @@
+﻿@page "/fetchdata"
+
+@using MudBlazorDemoWasm.Shared
+
+@inject HttpClient _http
+
+<MudTable Items="@_forecasts" Dense="false" Hover="true" Filter="new Func<WeatherForecast,bool>(FilterFunc)" @bind-SelectedItem="_selectedItem">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Weather forecast</MudText>
+        <MudSpacer />
+        <MudIcon Class="mt-5 mr-2" Icon="@Icons.Material.Filled.Search"></MudIcon>
+        <MudTextField @bind-Value="_searchString" Placeholder="Search"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Date</MudTh>
+        <MudTh>Temp. (C)</MudTh>
+        <MudTh>Temp. (F)</MudTh>
+        <MudTh>Summary</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.Date.ToShortDateString()</MudTd>
+        <MudTd>@context.TemperatureC</MudTd>
+        <MudTd>@context.TemperatureF</MudTd>
+        <MudTd>@context.Summary</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    private List<WeatherForecast> _forecasts = new List<WeatherForecast>();
+
+    private string _searchString = "";
+    private WeatherForecast _selectedItem = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _forecasts = (await _http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast")).ToList();
+    }
+
+    private bool FilterFunc(WeatherForecast element)
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+        if (element.Summary.ToLowerInvariant().Contains(_searchString))
+            return true;
+        return false;
+    }
+}
