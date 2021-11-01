@@ -2,7 +2,7 @@
 
 @using MudBlazorDemoWasm.Shared
 
-@inject HttpClient _http
+@inject IWeatherForecastService _weatherForcastService
 
 <MudTable Items="@_forecasts" Dense="false" Hover="true" Filter="new Func<WeatherForecast,bool>(FilterFunc)" @bind-SelectedItem="_selectedItem">
     <ToolBarContent>
@@ -36,7 +36,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _forecasts = (await _http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast")).ToList();
+        _forecasts = (await _weatherForcastService.ListForecastsAsync()).ToList();
     }
 
     private bool FilterFunc(WeatherForecast element)
