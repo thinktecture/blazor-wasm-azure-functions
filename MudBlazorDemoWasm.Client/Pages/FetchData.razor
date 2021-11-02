@@ -2,7 +2,7 @@
 
 @using MudBlazorDemoWasm.Shared
 
-@inject IWeatherForecastService _weatherForcastService
+@inject IWeatherForecastService _weatherForecastService
 
 <MudTable Items="@_forecasts" Dense="false" Hover="true" Filter="new Func<WeatherForecast,bool>(FilterFunc)" @bind-SelectedItem="_selectedItem">
     <ToolBarContent>
@@ -36,7 +36,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _forecasts = (await _weatherForcastService.ListForecastsAsync()).ToList();
+        _forecasts = (await _weatherForecastService.ListForecastsAsync()).ToList();
     }
 
     private bool FilterFunc(WeatherForecast element)

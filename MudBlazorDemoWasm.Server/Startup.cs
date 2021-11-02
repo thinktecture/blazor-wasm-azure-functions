@@ -20,7 +20,7 @@ namespace MudBlazorDemoWasm.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddGrpc();
+            services.AddGrpc();
             services.AddCodeFirstGrpc(config => { config.ResponseCompressionLevel = CompressionLevel.Optimal; });
             services.AddCodeFirstGrpcReflection();
 
@@ -42,6 +42,7 @@ namespace MudBlazorDemoWasm.Server
             }
 
             app.UseHttpsRedirection();
+
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
