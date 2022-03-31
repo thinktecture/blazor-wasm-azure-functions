@@ -1,2 +1,2 @@
-# blazor-wasm-mudblazor-demo
-Blazor WASM demo app with MudBlazor Material design components
+# blazor-wasm-azure-functions
+Sample showing how to host a Blazor WASM app in Azure Functions
